@@ -1,7 +1,7 @@
 package bcserver;
 
 import (
-	"fmt"
+	//"fmt"
 	"net"
 	"utils"
 	"io/ioutil"
@@ -95,7 +95,7 @@ func BuildPacket(id uint16, queryName string, blockResponse ResBody) ([]byte){
     binary.Write(&buffer, binary.BigEndian, requestQuery)
     binary.Write(&buffer, binary.BigEndian, BuildDNSRecord(blockResponse.Auth_details, queryName))
     binary.Write(&buffer, binary.BigEndian, BuildDNSRecord(blockResponse.Extra_details, queryName))
-    fmt.Println("resolve success!")
+    //fmt.Println("resolve success!")
 	return buffer.Bytes()
 }
 
@@ -153,7 +153,7 @@ func QueryHandle(queryData []byte) (uint16, string) {
 }
 
 func BCServer(addr string) {
-	fmt.Println("bcserver start")
+	//fmt.Println("bcserver start")
 	udpAddr, err1 := net.ResolveUDPAddr("udp4", addr)
     utils.ChkErr(err1)
     //监听端口
