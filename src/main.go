@@ -16,11 +16,11 @@ func main() {
 	var wg sync.WaitGroup
 	wg.Add(1)
 	go func() {
-		middleware.Middleware("127.0.0.1:53", "127.0.0.1:4700")
+		middleware.Middleware("192.168.27.239:53", "127.0.0.1:4700")
 		wg.Done()
 	}()
-	wg.Add(1) 
-	go func() {  
+	wg.Add(1)
+	go func() {
 		bcserver.BCServer("127.0.0.1:4700")
 		wg.Done()
 	}()

@@ -148,6 +148,7 @@ func QueryHandle(queryData []byte) (uint16, string) {
 	var queryName string
 	binary.Read(bytes.NewReader(queryData[0:2]), binary.BigEndian, &id)
 	queryName = utils.ParseBytesToDomainName(queryData[2:])
+	//fmt.Println("queryName is ", queryName)
 	return id, queryName
 }
 

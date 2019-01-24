@@ -62,7 +62,7 @@ func UdpHandle(data []byte) []byte {
     //     j++
     // }
     // domainName = strings.Join(domainArr, ".")
-    var buffer bytes.Buffer 
+    var buffer bytes.Buffer
     binary.Write(&buffer, binary.BigEndian, data[0:2])
     binary.Write(&buffer, binary.BigEndian, data[12:64])
     //fmt.Println(domainName, "resolve success!")
