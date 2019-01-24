@@ -3,7 +3,7 @@ package middleware;
 import (
     "net"
     //"net/http"
-    "fmt"
+    //"fmt"
     "encoding/binary"
     //"strings"
     "bytes"
@@ -70,12 +70,12 @@ func UdpHandle(data []byte) []byte {
 }
 
 func Middleware(fromAddr string, toAddr string) {
-    fmt.Println("middleware start")
+    //fmt.Println("middleware start")
     udpAddr, err := net.ResolveUDPAddr("udp4", fromAddr)
     utils.ChkErr(err)
     udpConn, err2 := net.ListenUDP("udp", udpAddr)
     utils.ChkErr(err2)
-    fmt.Println("from", fromAddr)
+    //fmt.Println("from", fromAddr)
     //udp没有对客户端连接的Accept函数
     for {
 		buf := make([]byte, 512)
@@ -86,14 +86,14 @@ func Middleware(fromAddr string, toAddr string) {
             utils.ChkErr(errSend2)
             _, errSend3 := BCConn.Write(UdpHandle(buf))
             utils.ChkErr(errSend3)
-            fmt.Println("Package send to BlockChain!")
+            //fmt.Println("Package send to BlockChain!")
 
             msg := make([]byte, 512)
             _, errRecv := BCConn.Read(msg)
             utils.ChkErr(errRecv)
             _, errToClient := udpConn.WriteToUDP(buf, clientAddr)
             utils.ChkErr(errToClient)
-            fmt.Println("Package reply Client!")
+            //fmt.Println("Package reply Client!")
         }()
     }
 }
