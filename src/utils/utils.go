@@ -8,6 +8,10 @@ import (
     "log"
 )
 
+func BytesToInt(b byte)(num int) {
+    return int(binary.BigEndian.Uint16([]byte{0, b}))
+}
+
 //域名字符串转btye数组
 func ParseDomainName(domain string) []byte {
 	var (
@@ -20,6 +24,20 @@ func ParseDomainName(domain string) []byte {
 	}
 	binary.Write(&buffer, binary.BigEndian, byte(0x00))
 	return buffer.Bytes()
+}
+
+func ParseBytesToDomainName(bytes []byte) string {
+    i, j := 0, 0
+    var domainArr []string
+    var domainName string
+	for bytes[i] != 0 {
+        length :=  BytesToInt(bytes[i])
+        domainArr = append(domainArr, string(bytes[i + 1: i + 1 + length]))
+        i = i + length + 1
+        j++
+    }
+    domainName = strings.Join(domainArr, ".")
+    return domainName
 }
 
 //IPv4地址转整型
