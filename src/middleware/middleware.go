@@ -64,7 +64,7 @@ func UdpHandle(data []byte) []byte {
     // domainName = strings.Join(domainArr, ".")
     var buffer bytes.Buffer 
     binary.Write(&buffer, binary.BigEndian, data[0:2])
-    binary.Write(&buffer, binary.BigEndian, data[2:64])
+    binary.Write(&buffer, binary.BigEndian, data[12:64])
     //fmt.Println(domainName, "resolve success!")
     return buffer.Bytes()
 }
@@ -78,7 +78,7 @@ func Middleware(fromAddr string, toAddr string) {
     //fmt.Println("from", fromAddr)
     //udp没有对客户端连接的Accept函数
     for {
-		buf := make([]byte, 512)
+		buf := make([]byte, 256)
 		_, clientAddr, errFromClient := udpConn.ReadFromUDP(buf)
 		utils.ChkErr(errFromClient)
 		go func() {
@@ -90,9 +90,11 @@ func Middleware(fromAddr string, toAddr string) {
 
             msg := make([]byte, 512)
             _, errRecv := BCConn.Read(msg)
+            //fmt.Println(msg)
             utils.ChkErr(errRecv)
-            _, errToClient := udpConn.WriteToUDP(buf, clientAddr)
+            _, errToClient := udpConn.WriteToUDP(msg, clientAddr)
             utils.ChkErr(errToClient)
+            //fmt.Println()
             //fmt.Println("Package reply Client!")
         }()
     }

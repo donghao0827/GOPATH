@@ -141,7 +141,6 @@ func BCServerHandle(queryName string) Response {
     errJson := json.Unmarshal(bytes, &res)
 	utils.ChkErr(errJson)
 	return res
-	//conn.WriteToUDP(BuildPacket(queryName, res.Data), addr)
 }
 
 func QueryHandle(queryData []byte) (uint16, string) {
@@ -163,10 +162,11 @@ func BCServer(addr string) {
         buf := make([]byte, 512)
 		_, clientAddr, err3 := udpConn.ReadFromUDP(buf)
 		utils.ChkErr(err3)
-		func() {
-			id, queryName := QueryHandle(buf)
+		go func() {
+            id, queryName := QueryHandle(buf)
 			res := BCServerHandle(queryName)
-			bytesBuffer := BuildPacket(id, queryName, res.Data)
+            bytesBuffer := BuildPacket(id, queryName, res.Data)
+            //fmt.Println(bytesBuffer)
 			udpConn.WriteToUDP(bytesBuffer, clientAddr)
 		}()
 	}
