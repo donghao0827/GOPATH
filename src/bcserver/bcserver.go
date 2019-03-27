@@ -1,7 +1,7 @@
 package bcserver;
 
 import (
-	//"fmt"
+	"fmt"
 	"net"
 	"utils"
 	"io/ioutil"
@@ -134,7 +134,8 @@ func BuildDNSRecord(details []DNSRecord, queryName string) []byte {
 }
 
 func BCServerHandle(queryName string) Response {
-	bytes, err := ioutil.ReadFile("bcserver/data.json")
+    bytes, err := ioutil.ReadFile("bcserver/data.json")
+    fmt.Println(bytes)
 	utils.ChkErr(err)
 	var res Response
     var json = jsoniter.ConfigCompatibleWithStandardLibrary
